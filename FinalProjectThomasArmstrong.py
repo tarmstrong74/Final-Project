@@ -5,42 +5,74 @@
 # Images
 # Categories (organized by what the work is based off of)
 # All relevant images for the category
-# Text/teasers
-# Categories (such as YouTube shorts and different series I have)
-# All relevant teasers for the category
-# Feedback
-# Feedback or idea
-# Box for video title (feedback only)
-# Anonymous user text entries
 # Each category has a back button and “home” button
 
-# I actually have a massive amount of files that will take up over 1 TB
-# of storage after being unzipped, so I will be placing only 1 video file in each
-# category. They will be redone in a lower quality format for storage purposes
-# (original images and videos done in 4k and 60 fps with PNGs file format)
-
+# Import statements
 from tkinter import *
 from PIL import ImageTk, Image
 main = Tk()
 main.title("SFM Hub")
 
-# home page image
+# Home page image
 home_image = ImageTk.PhotoImage(Image.open("Final Project Images/Nightmare (with custom watermark).jpg"))
 image_label = Label(image=home_image)
 image_label.grid(row=1, column=0)
 
+
+# Video window
+def open1():
+    vid_window = Toplevel()
+    vid_window.title("Video Viewer")
+
+
+# Image viewer window
+def open2():
+    img_window = Toplevel()
+    img_window.title("Image Viewer")
+    # Images
+    img1 = ImageTk.PhotoImage(Image.open("Final Project Images/trainer003064 (720_720).jpg"))
+    img2 = ImageTk.PhotoImage(Image.open("Final Project Images/Outro000000 (720_950).jpg"))
+    img3 = ImageTk.PhotoImage(Image.open("Final Project Images/nightmares000000 (1280_720).jpg"))
+    img4 = ImageTk.PhotoImage(Image.open("Final Project Images/OC fog000000 (1280_720).jpg"))
+    img5 = ImageTk.PhotoImage(Image.open("Final Project Images/Split Story Intro Rain003359 (1280_720).jpg"))
+
+    image_list = [img1, img2, img3, img4, img5]
+    img_window.img_reference = image_list
+    image_number = 0
+
+    # define widgets
+    img_label = Label(img_window, image=img1)
+    img_label.grid(row=0, column=0, columnspan=3)
+
+    forward_button = Button(img_window, text=">>", command=lambda: update_img(image_number + 1))
+    forward_button.grid(row=1, column=2)
+    back_button = Button(img_window, text="<<", command=lambda: update_img(image_number - 1))
+    back_button.grid(row=1, column=0)
+    exit_button = Button(img_window, text="Close Program", command=main.quit)
+    exit_button.grid(row=1, column=1)
+
+    def update_img(new_number):
+        nonlocal image_number
+        image_number = new_number % len(image_list)
+        img_label.config(image=image_list[image_number])
+
+
 # Home page of widgets
+# Title at the top
 description_label = Label(main, text="This is a collection of some of my work!")
 description_label.grid(row=0, column=0)
-video_button = Button(main, text="Show videos")
+
+# Video button and open window command
+video_button = Button(main, text="Show videos", command=open1)
 video_button.grid(row=2, column=0)
-image_button = Button(main, text="Show images")
+
+# Image viewer button and open window command
+image_button = Button(main, text="Show images", command=open2)
 image_button.grid(row=3, column=0)
-text_button = Button(main, text="Show text and teasers")
-text_button.grid(row=4, column=0)
-feedback_button = Button(main, text="Show feedback options")
-feedback_button.grid(row=5, column=0)
+
+# Close program button and command
 quit_button = Button(main, text="Close Program", command=main.quit)
 quit_button.grid(row=6, column=0)
+# End of home page widgets
 
-main.mainloop()
+mainloop()
